@@ -1,20 +1,17 @@
 ---
-import { formatDate, readingTime, thoughtTransition, type Thought } from '../lib/thoughts';
+import ThoughtMeta from './ThoughtMeta.astro';
+import { thoughtTransition, type Thought } from '../lib/thoughts';
 
 interface Props {
   thought: Thought;
 }
 
 const { thought } = Astro.props;
-const { title, description, date } = thought.data;
+const { title, description } = thought.data;
 ---
 
 <a href={`/thoughts/${thought.id}/`} class="thought pen-none">
-  <p class="meta">
-    <time datetime={date.toISOString()}>{formatDate(date)}</time>
-    <span aria-hidden="true">·</span>
-    <span>{readingTime(thought.body)}</span>
-  </p>
+  <ThoughtMeta thought={thought} />
   <h2
     class="title morph"
     transition:name={thoughtTransition(thought.id)}
@@ -31,7 +28,7 @@ const { title, description, date } = thought.data;
     color: inherit;
   }
 
-  .meta {
+  .thought :global(.meta) {
     margin: 0 0 var(--space-3);
   }
 

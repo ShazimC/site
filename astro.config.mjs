@@ -3,10 +3,11 @@ import { defineConfig } from 'astro/config';
 import node from '@astrojs/node';
 import mdx from '@astrojs/mdx';
 import react from '@astrojs/react';
+import { SITE_URL } from './src/lib/site.ts';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://example.com',
+  site: SITE_URL,
   adapter: node({
     mode: 'standalone',
   }),

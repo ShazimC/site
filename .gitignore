@@ -24,3 +24,5 @@ pnpm-debug.log*
 .idea/
 
 .playwright-mcp
+# publish tooling
+scripts/publish/.venv/

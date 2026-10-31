@@ -1,0 +1,23 @@
+.pp-view { padding: var(--size-4-2); }
+.pp-header { display: flex; align-items: center; justify-content: space-between; margin-block-end: var(--size-4-2); }
+.pp-header h4 { margin: 0; }
+.pp-tools { display: flex; gap: var(--size-2-1); }
+.pp-empty { color: var(--text-muted); font-size: var(--font-ui-small); }
+.pp-list { display: flex; flex-direction: column; gap: var(--size-4-2); }
+.pp-row { display: flex; flex-direction: column; gap: var(--size-2-2); padding: var(--size-4-2); border: 1px solid var(--background-modifier-border); border-radius: var(--radius-m); }
+.pp-row.is-busy { opacity: 0.7; }
+.pp-heading { display: flex; align-items: baseline; justify-content: space-between; gap: var(--size-4-2); }
+.pp-title { font-weight: var(--font-semibold); cursor: pointer; }
+.pp-rough { display: inline-flex; flex-shrink: 0; align-items: center; gap: var(--size-2-1); font-size: var(--font-ui-smaller); color: var(--text-muted); cursor: pointer; }
+.pp-rough input { margin: 0; }
+.pp-title:hover { color: var(--text-accent); }
+.pp-path { margin-block-start: calc(-1 * var(--size-2-2)); color: var(--text-faint); font-size: var(--font-ui-smaller); }
+.pp-chips, .pp-actions { display: flex; flex-wrap: wrap; gap: var(--size-2-2); }
+.pp-chip { height: auto; padding: var(--size-2-1) var(--size-4-2); border-radius: var(--radius-l); font-size: var(--font-ui-smaller); box-shadow: none; }
+.pp-chip.is-undrafted { color: var(--text-faint); background: transparent; border: 1px dashed var(--background-modifier-border); }
+.pp-chip.is-draft { color: var(--color-orange); background: rgba(var(--color-orange-rgb), 0.12); }
+.pp-chip.is-published { color: var(--color-green); background: rgba(var(--color-green-rgb), 0.12); }
+.pp-chip.is-missing { color: var(--color-red); background: rgba(var(--color-red-rgb), 0.12); }
+.pp-action { display: inline-flex; align-items: center; gap: var(--size-2-2); height: auto; padding: var(--size-2-2) var(--size-4-2); font-size: var(--font-ui-smaller); }
+.pp-action svg { width: var(--icon-xs); height: var(--icon-xs); }
+.pp-busy { color: var(--text-muted); font-size: var(--font-ui-smaller); }

@@ -36,3 +36,9 @@ Consult these guides before working on related tasks:
 - Hover-only effects (scale, lift, color change on hover) go inside `@media (--can-hover)` so they don't stick after a tap on touch devices. Mirror them on `:focus-visible` for keyboard users.
 - Respect `prefers-reduced-motion` for any transition or animation.
 - Verify in a browser at 320px, 390px, 768px and 1280px, in light and dark mode, before calling a UI change done. Check the document doesn't scroll horizontally (`document.documentElement.scrollWidth === innerWidth`).
+
+## Publishing
+
+Thoughts posts are generated from Obsidian by `scripts/publish/` (see its README). Don't hand-edit generated posts in `src/content/thoughts/`; edit the source note and re-run `pnpm publish:draft`.
+
+After changing a collection schema in `src/content.config.ts`, run `npx astro sync --force` and restart the dev server; otherwise the content cache keeps entries parsed with the old schema.

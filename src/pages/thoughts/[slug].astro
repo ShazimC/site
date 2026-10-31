@@ -2,7 +2,8 @@
 import { render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import ArrowLeftIcon from '@phosphor-icons/core/assets/light/arrow-left-light.svg';
-import { formatDate, getThoughts, readingTime, thoughtTransition, type Thought } from '../../lib/thoughts';
+import ThoughtMeta from '../../components/ThoughtMeta.astro';
+import { getThoughts, thoughtTransition, type Thought } from '../../lib/thoughts';
 import '../../styles/prose.css';
 
 export async function getStaticPaths() {
@@ -15,16 +16,14 @@ interface Props {
 }
 
 const { thought } = Astro.props;
-const { title, description, date } = thought.data;
+const { title, description } = thought.data;
 const { Content } = await render(thought);
 ---
 
 <Base title={title} subtitle={description} titleTransition={thoughtTransition(thought.id)} compact>
-  <p class="meta" slot="header">
-    <time datetime={date.toISOString()}>{formatDate(date)}</time>
-    <span aria-hidden="true">·</span>
-    <span>{readingTime(thought.body)}</span>
-  </p>
+  <div class="byline" slot="header">
+    <ThoughtMeta thought={thought} />
+  </div>
 
   <article class="prose">
     <Content />
@@ -37,7 +36,7 @@ const { Content } = await render(thought);
 </Base>
 
 <style>
-  .meta {
+  .byline :global(.meta) {
     margin: var(--space-4) 0 0;
   }
 

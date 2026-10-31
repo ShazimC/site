@@ -10,7 +10,11 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "publish:setup": "python3 -m venv scripts/publish/.venv && scripts/publish/.venv/bin/pip install -q -r scripts/publish/requirements.txt",
+    "publish:draft": "node scripts/publish/cli.ts draft",
+    "publish:status": "node scripts/publish/cli.ts status",
+    "publish:medium": "node scripts/publish/cli.ts medium"
   },
   "dependencies": {
     "@astrojs/markdown-satteri": "^0.4.4",
@@ -26,6 +30,16 @@
   },
   "devDependencies": {
     "@csstools/postcss-global-data": "^4.0.0",
-    "postcss-custom-media": "^12.0.3"
+    "@types/mdast": "^4.0.4",
+    "@types/node": "24",
+    "postcss-custom-media": "^12.0.3",
+    "remark-gfm": "^4.0.1",
+    "remark-math": "^6.0.0",
+    "remark-parse": "^11.0.0",
+    "remark-stringify": "^11.0.0",
+    "typescript": "5",
+    "unified": "^11.0.5",
+    "unist-util-visit": "^5.2.0",
+    "yaml": "^2.9.1"
   }
 }

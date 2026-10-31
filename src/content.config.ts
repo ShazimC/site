@@ -19,6 +19,8 @@ const thoughts = defineCollection({
     description: z.string(),
     date: z.coerce.date(),
     draft: z.boolean().default(false),
+    /* Flags unfinished thinking; checked in the Obsidian note. */
+    rough: z.boolean().default(false),
   }),
 });
 
