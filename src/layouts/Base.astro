@@ -8,6 +8,7 @@ import { ClientRouter } from 'astro:transitions';
 import { fadeSlide } from '../lib/transitions';
 import avatar from '../assets/photos/IMG_1902.jpg';
 import CloseIcon from '@phosphor-icons/core/assets/light/x-light.svg';
+import SocialLinks from '../components/SocialLinks.astro';
 
 interface Props {
   title: string;
@@ -40,7 +41,7 @@ const links = [
       href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Cormorant+Infant:ital,wght@0,300..700;1,300..700&display=swap"
       rel="stylesheet"
     />
-    <title>Shazim's portfolio</title>
+    <title>Shazim</title>
     <ClientRouter />
   </head>
   <body>
@@ -64,6 +65,7 @@ const links = [
           ))
         }
       </ul>
+      <SocialLinks class="nav-socials" />
 
       <button class="menu-toggle" popovertarget="menu" aria-label="Open menu">
         <Image
@@ -109,6 +111,7 @@ const links = [
             ))
           }
         </ul>
+        <SocialLinks class="menu-socials" />
       </div>
     </nav>
 
@@ -263,6 +266,18 @@ const links = [
     }
   }
 
+  /* Pull the icons' hit-area padding out so their edges line up with the link text. */
+  nav :global(.nav-socials) {
+    --social-size: calc(var(--size-icon) + 3px);
+    margin: var(--space-12) 0 0 var(--space-1);
+  }
+
+  .menu :global(.menu-socials) {
+    --social-size: var(--space-10);
+    gap: var(--space-4);
+    margin: calc(2 * var(--space-16)) 0 0 calc(-1 * var(--space-2));
+  }
+
   .menu-toggle {
     display: none;
     padding: 0;
@@ -323,7 +338,7 @@ const links = [
       transition: transform var(--duration-fast) var(--ease);
     }
 
-    .icon {
+    .menu-close .icon {
       width: var(--size-icon);
       height: var(--size-icon);
     }
@@ -371,7 +386,8 @@ const links = [
       background: none;
 
       .nav-title,
-      .links {
+      .links,
+      :global(.nav-socials) {
         display: none;
       }
     }

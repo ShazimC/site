@@ -1,0 +1,76 @@
+---
+import LinkedinIcon from '../assets/icons/linkedin.svg';
+import MediumIcon from '../assets/icons/medium.svg';
+import SubstackIcon from '../assets/icons/substack.svg';
+import { SOCIALS } from '../lib/site';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+const icons = { linkedin: LinkedinIcon, substack: SubstackIcon, medium: MediumIcon };
+---
+
+<ul class:list={['socials', className]}>
+  {
+    SOCIALS.map(({ id, label, href }) => {
+      const Icon = icons[id];
+      return (
+        <li>
+          <a
+            href={href}
+            class="pen-none"
+            target="_blank"
+            rel="me noopener noreferrer"
+            aria-label={`${label} (opens in a new tab)`}
+          >
+            <Icon class="icon" aria-hidden="true" />
+          </a>
+        </li>
+      );
+    })
+  }
+</ul>
+
+<style>
+  .socials {
+    list-style: none;
+    display: flex;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0;
+  }
+
+  a {
+    display: grid;
+    place-items: center;
+    padding: var(--space-2);
+    border-radius: var(--radius-lg);
+    color: var(--text-muted);
+    transition: color var(--duration-slow) var(--ease);
+  }
+
+  a:focus-visible {
+    color: var(--primary);
+  }
+
+  @media (--can-hover) {
+    a:hover {
+      color: var(--primary);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    a {
+      transition: none;
+    }
+  }
+
+  /* --social-size lets the parent scale the icons. The SVGs are cropped to their artwork
+     horizontally, so width follows each icon and its edges line up with neighbouring text. */
+  .icon {
+    width: auto;
+    height: var(--social-size, var(--size-icon));
+  }
+</style>
