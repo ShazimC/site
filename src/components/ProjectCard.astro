@@ -4,21 +4,19 @@ import type { Project } from '../lib/resume';
 
 interface Props {
   project: Project;
+  /** Rendered image width per breakpoint; the parent owns the layout, so it supplies this. */
+  sizes: string;
 }
 
-const { project } = Astro.props;
+const { project, sizes } = Astro.props;
 const { name, url, image, description } = project;
-
-// Single source for the card width: drives the CSS and the image's rendered size (1rem = 16px).
-const widthRem = 16;
-const width = `${widthRem}rem`;
 ---
 
 <a href={url} target="_blank" rel="noopener noreferrer" class="project pen-none">
   {
     image && (
       <div class="cover">
-        <Image src={image} alt="" width={widthRem * 16} densities={[1, 2]} />
+        <Image src={image} alt="" widths={[320, 640, 960]} {sizes} />
       </div>
     )
   }
@@ -26,13 +24,12 @@ const width = `${widthRem}rem`;
   <p class="description">{description}</p>
 </a>
 
-<style define:vars={{ width }}>
-  /* Layout and motion after maggieappleton.com's essay cards. */
+<style>
+  /* Layout and motion after maggieappleton.com's essay cards. Fluid: fills whatever width the parent gives it. */
   .project {
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    inline-size: var(--width);
     block-size: 100%;
     padding: var(--space-5);
     border: var(--border-thin) solid var(--border-color);
@@ -43,9 +40,16 @@ const width = `${widthRem}rem`;
       transform var(--duration-normal) var(--ease-spring),
       box-shadow var(--duration-fast) var(--ease);
 
-    &:is(:hover, :focus-visible) {
+    &:focus-visible {
       transform: scale(var(--scale-lift));
       box-shadow: var(--shadow-lifted);
+    }
+
+    @media (--can-hover) {
+      &:hover {
+        transform: scale(var(--scale-lift));
+        box-shadow: var(--shadow-lifted);
+      }
     }
 
     &:active {
@@ -74,8 +78,15 @@ const width = `${widthRem}rem`;
     line-height: var(--leading-tight);
     transition: color var(--duration-fast) var(--ease);
 
-    .project:is(:hover, :focus-visible) & {
+    .project:focus-visible &,
+    .project:active & {
       color: var(--link);
+    }
+
+    @media (--can-hover) {
+      .project:hover & {
+        color: var(--link);
+      }
     }
   }
 

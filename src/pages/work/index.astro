@@ -5,6 +5,10 @@ import { formatRange, getResume } from '../../lib/resume';
 
 const { experience, projects } = await getResume();
 const roles = experience.toSorted((a, b) => b.start.valueOf() - a.start.valueOf());
+
+// Mirrors `.projects` below: full-width stack on small screens, fixed-width row above.
+const cardWidth = '16rem';
+const cardSizes = `(width < 48rem) 100vw, ${cardWidth}`;
 ---
 
 <Base title="Work" subtitle="To grow.">
@@ -36,7 +40,7 @@ const roles = experience.toSorted((a, b) => b.start.valueOf() - a.start.valueOf(
       {
         projects.map((project) => (
           <li>
-            <ProjectCard project={project} />
+            <ProjectCard project={project} sizes={cardSizes} />
           </li>
         ))
       }
@@ -44,7 +48,7 @@ const roles = experience.toSorted((a, b) => b.start.valueOf() - a.start.valueOf(
   </section>
 </Base>
 
-<style>
+<style define:vars={{ cardWidth }}>
   section + section {
     margin-top: var(--space-16);
   }
@@ -116,30 +120,34 @@ const roles = experience.toSorted((a, b) => b.start.valueOf() - a.start.valueOf(
     font-weight: var(--weight-light);
   }
 
-  /* Horizontally scrolling row; padding leaves room for the cards' hover lift and shadow. */
+  /*
+   * Small screens: single-column stack so every card is fully visible.
+   * Larger screens: horizontally scrolling row of fixed-width cards; padding leaves room for the hover lift and shadow.
+   */
   .projects {
     --bleed: var(--space-3);
     --lift-room: var(--space-6);
 
-    display: flex;
-    gap: var(--space-3);
-    margin: calc(var(--lift-room) * -1) calc(var(--bleed) * -1);
-    padding: var(--lift-room) var(--bleed);
+    display: grid;
+    gap: var(--space-4);
+    margin: 0;
+    padding: 0;
     list-style: none;
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
-    scroll-snap-type: x mandatory;
-    scroll-padding-inline: var(--bleed);
 
-    /* Run the row edge to edge on small screens; touch scrolling needs no scrollbar. */
-    @media (--md-down) {
-      --bleed: var(--gutter);
-      scrollbar-width: none;
-    }
+    @media (--md) {
+      grid-auto-flow: column;
+      grid-auto-columns: var(--cardWidth);
+      gap: var(--space-3);
+      margin: calc(var(--lift-room) * -1) calc(var(--bleed) * -1);
+      padding: var(--lift-room) var(--bleed);
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scroll-snap-type: x mandatory;
+      scroll-padding-inline: var(--bleed);
 
-    li {
-      flex: none;
-      scroll-snap-align: start;
+      li {
+        scroll-snap-align: start;
+      }
     }
   }
 </style>

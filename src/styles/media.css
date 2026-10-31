@@ -6,3 +6,6 @@
 
 /* Max-width counterpart: iPad mini portrait (768px) and smaller. */
 @custom-media --md-down (width <= 48rem);
+
+/* Devices with a real hover pointer (mouse/trackpad); excludes touch so hover effects don't stick after a tap. */
+@custom-media --can-hover (hover: hover) and (pointer: fine);
