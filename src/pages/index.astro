@@ -1,5 +1,11 @@
 ---
 import Base from '../layouts/Base.astro';
+import ThoughtRow from '../components/ThoughtRow.astro';
+import ArrowRightIcon from '@phosphor-icons/core/assets/light/arrow-right-light.svg';
+import { getThoughts } from '../lib/thoughts';
+
+const RECENT_COUNT = 3;
+const recent = (await getThoughts()).slice(0, RECENT_COUNT);
 ---
 
 <Base title="Shazim شازم" subtitle="Design engineer, student, and advocate.">
@@ -14,4 +20,73 @@ import Base from '../layouts/Base.astro';
     novel and joyful experiences for people. I naturally work at the intersection of design,
     engineering, product, and UX research.
   </p>
+
+  {
+    recent.length > 0 && (
+      <section class="recent" aria-labelledby="recent-thoughts">
+        <h2 id="recent-thoughts" class="heading">
+          <a href="/thoughts/" class="all">
+            Recent thoughts
+            <ArrowRightIcon class="icon" aria-hidden="true" />
+          </a>
+        </h2>
+        <ul class="list">
+          {recent.map((thought) => (
+            <li>
+              <ThoughtRow thought={thought} />
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
 </Base>
+
+<style>
+  .recent {
+    margin-top: var(--space-12);
+  }
+
+  .heading {
+    font-family: var(--font-display);
+    font-size: var(--text-base);
+    font-weight: var(--weight-medium);
+    color: var(--text-muted);
+  }
+
+  .list {
+    list-style: none;
+    margin: var(--space-2) 0 0;
+    padding: 0;
+  }
+
+  .all {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: inherit;
+    --pen-offset: -0.55em;
+  }
+
+  .icon {
+    width: 1.1em;
+    height: 1.1em;
+    transition: transform var(--duration-fast) var(--ease-out);
+  }
+
+  .all:focus-visible .icon {
+    transform: translateX(var(--space-1));
+  }
+
+  @media (--can-hover) {
+    .all:hover .icon {
+      transform: translateX(var(--space-1));
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .icon {
+      transition: none;
+    }
+  }
+</style>

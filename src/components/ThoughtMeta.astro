@@ -10,19 +10,20 @@ const { date, complete } = thought.data;
 ---
 
 <p class="meta">
-  <time datetime={date.toISOString()}>{formatDate(date)}</time>
   <!-- <span aria-hidden="true">·</span> -->
   <!-- <span>{readingTime(thought.body)}</span> -->
   {
     !complete && (
       <>
-        <span aria-hidden="true">·</span>
         <em class="rough" title="Unfinished thinking, still taking shape">
           Draft
         </em>
+        <span aria-hidden="true">·</span>
       </>
     )
   }
+
+  <time datetime={date.toISOString()}>{formatDate(date)}</time>
 </p>
 
 <style>

@@ -1,0 +1,65 @@
+---
+import ThoughtMeta from './ThoughtMeta.astro';
+import { thoughtTransition, type Thought } from '../lib/thoughts';
+
+interface Props {
+  thought: Thought;
+}
+
+/* Compact, single-line counterpart to ThoughtCard: title and date only, for short lists. */
+const { thought } = Astro.props;
+---
+
+<a href={`/thoughts/${thought.id}/`} class="row pen-none">
+  <h3
+    class="title morph"
+    transition:name={thoughtTransition(thought.id)}
+    transition:animate="initial"
+  >
+    {thought.data.title}
+  </h3>
+  <ThoughtMeta thought={thought} />
+</a>
+
+<style>
+  /* Stacked on small screens; title and date share a line from --sm up. */
+  .row {
+    display: grid;
+    gap: var(--space-1);
+    padding-block: var(--space-4);
+    color: inherit;
+
+    @media (--sm) {
+      grid-template-columns: 1fr auto;
+      align-items: baseline;
+      gap: var(--space-6);
+    }
+  }
+
+  .title {
+    font-size: var(--text-xl);
+    font-weight: var(--weight-regular);
+    line-height: var(--leading-tight);
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  .row :global(.meta) {
+    margin: 0;
+  }
+
+  .row:focus-visible .title {
+    color: var(--link);
+  }
+
+  @media (--can-hover) {
+    .row:hover .title {
+      color: var(--link);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .title {
+      transition: none;
+    }
+  }
+</style>
