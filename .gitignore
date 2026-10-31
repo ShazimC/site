@@ -26,3 +26,6 @@ pnpm-debug.log*
 .playwright-mcp
 # publish tooling
 scripts/publish/.venv/
+
+# python
+__pycache__/

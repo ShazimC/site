@@ -1,6 +1,6 @@
 {
-  "id": "portfolio-publisher",
-  "name": "Portfolio Publisher",
+  "id": "site-publisher",
+  "name": "Site Publisher",
   "version": "0.1.0",
   "minAppVersion": "1.5.0",
   "description": "Creates site, Substack and Medium drafts from notes and tracks their status in the sidebar.",

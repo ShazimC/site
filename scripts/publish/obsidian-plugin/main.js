@@ -1,23 +1,23 @@
 'use strict';
-// Portfolio Publisher: sidebar UI over scripts/publish/cli.ts in the portfolio repo.
+// Site Publisher: sidebar UI over scripts/publish/cli.ts in the site repo.
 // All state lives in note frontmatter; this view just reads it and runs the CLI.
 const { ItemView, Menu, Notice, Plugin, PluginSettingTab, Setting, TFile, setIcon } = require('obsidian');
 const { execFile } = require('child_process');
 
-const VIEW = 'portfolio-publisher';
-const DEFAULTS = { repoPath: '/Users/shazimc/Code/portfolio', nodePath: '' };
+const VIEW = 'site-publisher';
+const DEFAULTS = { repoPath: '/Users/shazimc/Code/site', nodePath: '' };
 const PLATFORMS = ['site', 'substack', 'medium'];
 const LABELS = { site: 'Site', substack: 'Substack', medium: 'Medium' };
 const STATUSES = ['undrafted', 'draft', 'published'];
 
-module.exports = class PortfolioPublisher extends Plugin {
+module.exports = class SitePublisher extends Plugin {
   async onload() {
     this.settings = Object.assign({}, DEFAULTS, await this.loadData());
     this.busy = new Set();
     this.config = null;
 
     this.registerView(VIEW, (leaf) => new PublishView(leaf, this));
-    this.addRibbonIcon('send', 'Portfolio publisher', () => this.openView());
+    this.addRibbonIcon('send', 'Site publisher', () => this.openView());
     this.addSettingTab(new PublisherSettings(this));
 
     this.addCommand({ id: 'open', name: 'Open publishing sidebar', callback: () => this.openView() });
@@ -135,7 +135,7 @@ module.exports = class PortfolioPublisher extends Plugin {
 
   cli(args) {
     const { repoPath, nodePath } = this.settings;
-    if (!nodePath) return Promise.reject(new Error('Set the Node path in Portfolio Publisher settings.'));
+    if (!nodePath) return Promise.reject(new Error('Set the Node path in Site Publisher settings.'));
     const env = { ...process.env, OBSIDIAN_VAULT: this.app.vault.adapter.getBasePath() };
     return new Promise((resolve, reject) =>
       execFile(nodePath, ['scripts/publish/cli.ts', ...args, '--json'], { cwd: repoPath, env, timeout: 180000, maxBuffer: 1 << 24 }, (error, stdout, stderr) => {
@@ -154,7 +154,7 @@ module.exports = class PortfolioPublisher extends Plugin {
     try {
       this.config = await this.cli(['config']);
     } catch (error) {
-      new Notice(`Portfolio publisher: ${error.message}`);
+      new Notice(`Site publisher: ${error.message}`);
     }
   }
 
@@ -171,7 +171,7 @@ module.exports = class PortfolioPublisher extends Plugin {
         if (command !== 'status' || result.errors.length) new Notice(`${name}\n${lines.join('\n') || 'Done'}`, result.errors.length ? 0 : 6000);
       }
     } catch (error) {
-      new Notice(`Portfolio publisher: ${error.message}`, 0);
+      new Notice(`Site publisher: ${error.message}`, 0);
     } finally {
       files.forEach((f) => this.busy.delete(f.path));
       this.rerender();
@@ -215,11 +215,11 @@ class PublishView extends ItemView {
   render() {
     const root = this.contentEl;
     root.empty();
-    root.addClass('pp-view');
+    root.addClass('sp-view');
 
-    const header = root.createDiv('pp-header');
+    const header = root.createDiv('sp-header');
     header.createEl('h4', { text: 'Publishing' });
-    const tools = header.createDiv('pp-tools');
+    const tools = header.createDiv('sp-tools');
     iconButton(tools, 'plus', 'Add current note', () => {
       const file = this.app.workspace.getActiveFile();
       if (file?.extension === 'md' && !this.plugin.isMarked(file)) this.plugin.togglePublish(file);
@@ -228,11 +228,11 @@ class PublishView extends ItemView {
 
     const files = this.plugin.marked().sort((a, b) => b.stat.mtime - a.stat.mtime);
     if (!files.length) {
-      root.createDiv({ cls: 'pp-empty', text: 'No notes marked for publishing. Use “Add to publishing” from a note’s menu or the + button.' });
+      root.createDiv({ cls: 'sp-empty', text: 'No notes marked for publishing. Use “Add to publishing” from a note’s menu or the + button.' });
       return;
     }
 
-    const list = root.createDiv('pp-list');
+    const list = root.createDiv('sp-list');
     for (const file of files) this.row(list, file);
   }
 
@@ -240,30 +240,30 @@ class PublishView extends ItemView {
     const fm = this.plugin.frontmatter(file);
     const busy = this.plugin.busy.has(file.path);
     const urls = this.plugin.urls(file);
-    const row = list.createDiv({ cls: 'pp-row' + (busy ? ' is-busy' : '') });
+    const row = list.createDiv({ cls: 'sp-row' + (busy ? ' is-busy' : '') });
 
-    const heading = row.createDiv('pp-heading');
-    const title = heading.createDiv({ cls: 'pp-title', text: fm.title ?? file.basename });
+    const heading = row.createDiv('sp-heading');
+    const title = heading.createDiv({ cls: 'sp-title', text: fm.title ?? file.basename });
     title.setAttr('title', file.path);
-    const complete = heading.createEl('label', { cls: 'pp-complete' });
+    const complete = heading.createEl('label', { cls: 'sp-complete' });
     const checkbox = complete.createEl('input', { type: 'checkbox' });
     checkbox.checked = this.plugin.isComplete(file);
     checkbox.onchange = () => this.plugin.setComplete(file, checkbox.checked);
     complete.createSpan({ text: 'Complete' });
     title.onclick = () => this.app.workspace.getLeaf(false).openFile(file);
-    if (file.parent && !file.parent.isRoot()) row.createDiv({ cls: 'pp-path', text: file.parent.path });
+    if (file.parent && !file.parent.isRoot()) row.createDiv({ cls: 'sp-path', text: file.parent.path });
 
-    const chips = row.createDiv('pp-chips');
+    const chips = row.createDiv('sp-chips');
     for (const platform of PLATFORMS) {
       const status = STATUSES.includes(fm[platform]) ? fm[platform] : 'undrafted';
-      const chip = chips.createEl('button', { cls: `pp-chip is-${status}`, text: LABELS[platform] });
+      const chip = chips.createEl('button', { cls: `sp-chip is-${status}`, text: LABELS[platform] });
       chip.setAttr('aria-label', `${LABELS[platform]}: ${status}`);
       chip.onclick = (event) => this.openChip(event, file, platform, urls);
     }
 
-    const actions = row.createDiv('pp-actions');
+    const actions = row.createDiv('sp-actions');
     if (busy) {
-      actions.createSpan({ cls: 'pp-busy', text: 'Working…' });
+      actions.createSpan({ cls: 'sp-busy', text: 'Working…' });
       return;
     }
     textButton(actions, 'file-up', fm.site ? 'Update drafts' : 'Create drafts', () => this.plugin.run('draft', [file]));
@@ -301,7 +301,7 @@ function iconButton(parent, icon, label, onClick) {
 }
 
 function textButton(parent, icon, label, onClick) {
-  const button = parent.createEl('button', { cls: 'pp-action' });
+  const button = parent.createEl('button', { cls: 'sp-action' });
   setIcon(button.createSpan(), icon);
   button.createSpan({ text: label });
   button.onclick = onClick;
@@ -320,7 +320,7 @@ class PublisherSettings extends PluginSettingTab {
     containerEl.empty();
 
     new Setting(containerEl)
-      .setName('Portfolio repo')
+      .setName('Site repo')
       .setDesc('Absolute path to the Astro repo containing scripts/publish.')
       .addText((t) => t.setValue(this.plugin.settings.repoPath).onChange((v) => ((this.plugin.settings.repoPath = v.trim()), save())));
 

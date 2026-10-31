@@ -17,7 +17,7 @@ State lives in each note’s frontmatter (`publish`, `complete`, `slug`, `date`,
 
 1. `pnpm install && pnpm publish:setup` (Python venv + `python-substack`).
 2. `cp scripts/publish/.env.example scripts/publish/.env` and fill `SUBSTACK_COOKIES`: sign in to substack.com → DevTools → Network → any request → copy the full `cookie` request header. Re-copy when it expires.
-3. Obsidian → Settings → Community plugins → turn off Restricted mode → enable **Portfolio Publisher**. The plugin lives in `obsidian-plugin/`, symlinked to `<vault>/.obsidian/plugins/portfolio-publisher`.
+3. Obsidian → Settings → Community plugins → turn off Restricted mode → enable **Site Publisher**. The plugin lives in `obsidian-plugin/`, symlinked to `<vault>/.obsidian/plugins/site-publisher`.
 
 ## Workflow
 
