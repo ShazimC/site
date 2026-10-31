@@ -50,8 +50,13 @@ const recent = (await getThoughts()).slice(0, RECENT_COUNT);
   .heading {
     font-family: var(--font-display);
     font-size: var(--text-base);
-    font-weight: var(--weight-medium);
+    font-weight: var(--weight-regular);
     color: var(--text-muted);
+    transition: color var(--duration-fast) var(--ease);
+  }
+
+  .heading:hover {
+    color: var(--text);
   }
 
   .list {

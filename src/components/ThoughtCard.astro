@@ -36,7 +36,7 @@ const { title, description } = thought.data;
     font-size: var(--text-3xl);
     font-weight: var(--weight-regular);
     line-height: var(--leading-tight);
-    transition: color var(--duration-fast) var(--ease-out);
+    transition: color var(--duration-normal) var(--ease);
 
     .thought:is(:hover, :focus-visible) & {
       color: var(--link);
@@ -45,5 +45,6 @@ const { title, description } = thought.data;
 
   .description {
     margin: var(--space-2) 0 0;
+    color: var(--text-muted);
   }
 </style>
