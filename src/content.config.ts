@@ -65,6 +65,8 @@ const resume = defineCollection({
           name: z.string(),
           kind: z.string(),
           status: z.string().optional(),
+          /* Listed under "Recent work" on the home page. */
+          featured: z.boolean().default(false),
           url: z.url(),
           image: image().optional(),
           start: month.optional(),

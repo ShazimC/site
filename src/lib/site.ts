@@ -5,4 +5,5 @@ export const SOCIALS = [
   { id: 'substack', label: 'Substack', href: 'https://signsreality.substack.com' },
   { id: 'linkedin', label: 'LinkedIn', href: 'https://www.linkedin.com/in/shazim-chaudhary-5b0418379/' },
   { id: 'medium', label: 'Medium', href: 'https://medium.com/@ShazimC' },
+  { id: 'github', label: 'GitHub', href: 'https://github.com/ShazimC' },
 ] as const;

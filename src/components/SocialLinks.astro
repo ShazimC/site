@@ -1,4 +1,5 @@
 ---
+import GithubIcon from '../assets/icons/github.svg';
 import LinkedinIcon from '../assets/icons/linkedin.svg';
 import MediumIcon from '../assets/icons/medium.svg';
 import SubstackIcon from '../assets/icons/substack.svg';
@@ -9,7 +10,7 @@ interface Props {
 }
 
 const { class: className } = Astro.props;
-const icons = { linkedin: LinkedinIcon, substack: SubstackIcon, medium: MediumIcon };
+const icons = { linkedin: LinkedinIcon, substack: SubstackIcon, medium: MediumIcon, github: GithubIcon };
 ---
 
 <ul class:list={['socials', className]}>

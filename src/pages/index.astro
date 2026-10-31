@@ -1,10 +1,13 @@
 ---
 import Base from '../layouts/Base.astro';
 import ThoughtRow from '../components/ThoughtRow.astro';
+import ProjectRow from '../components/ProjectRow.astro';
 import { getThoughts } from '../lib/thoughts';
+import { getResume } from '../lib/resume';
 
 const RECENT_COUNT = 3;
 const recent = (await getThoughts()).slice(0, RECENT_COUNT);
+const featured = (await getResume()).projects.filter((project) => project.featured);
 ---
 
 <Base title="Shazim شازم" subtitle="Design engineer, student, and advocate.">
@@ -19,6 +22,25 @@ const recent = (await getThoughts()).slice(0, RECENT_COUNT);
     novel and joyful experiences for people. I naturally work at the intersection of design,
     engineering, product, and UX research.
   </p>
+
+  {
+    featured.length > 0 && (
+      <section class="recent" aria-labelledby="recent-work">
+        <h2 id="recent-work" class="heading">
+          <a href="/work/" class="all">
+            Recent work
+          </a>
+        </h2>
+        <ul class="list">
+          {featured.map((project) => (
+            <li>
+              <ProjectRow project={project} />
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
 
   {
     recent.length > 0 && (
@@ -59,7 +81,7 @@ const recent = (await getThoughts()).slice(0, RECENT_COUNT);
 
   .list {
     list-style: none;
-    margin: var(--space-2) 0 0;
+    margin: var(--space-4) 0 0;
     padding: 0;
   }
 

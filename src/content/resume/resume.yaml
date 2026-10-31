@@ -81,8 +81,16 @@ resume:
         - 'Permissions Architecture: designed and implemented the permissions architecture for the UI using CASL.js.'
 
   projects:
+    - name: Genocide.live
+      kind: Evidence Archive
+      featured: true
+      url: https://genocide.live/
+      stack: []
+      description: An archive documenting the genocide being committed in Palestine by Israel. I designed it, implemented most of the UI, and built its search.
+
     - name: Plantrees
       kind: AI Planner SaaS
+      featured: true
       url: https://plantrees.app
       start: '2024-06'
       stack: [Next.js, TypeScript, Tailwind, Drizzle, Supabase, Vercel]

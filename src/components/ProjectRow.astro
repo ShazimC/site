@@ -1,0 +1,63 @@
+---
+import type { Project } from '../lib/resume';
+
+interface Props {
+  project: Project;
+}
+
+/* Compact counterpart to ProjectCard: name and description, no cover, for short lists. */
+const { project } = Astro.props;
+const { name, url, description } = project;
+---
+
+<a
+  href={url}
+  target="_blank"
+  rel="noopener noreferrer"
+  class="row pen-none"
+  aria-label={`${name}: ${description} (opens in a new tab)`}
+>
+  <h3 class="name">{name}</h3>
+  <p class="description">{description}</p>
+</a>
+
+<style>
+  .row {
+    display: grid;
+    gap: var(--space-1);
+    padding-block: var(--space-4);
+    color: inherit;
+  }
+
+  .name {
+    font-size: var(--text-xl);
+    font-weight: var(--weight-regular);
+    line-height: var(--leading-tight);
+    transition: color var(--duration-normal) var(--ease);
+  }
+
+  .description {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: var(--text-lg);
+    font-weight: var(--weight-light);
+    line-height: var(--leading-normal);
+    color: var(--text-muted);
+  }
+
+  .row:focus-visible .name {
+    color: var(--link);
+  }
+
+  @media (--can-hover) {
+    .row:hover .name {
+      color: var(--link);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .name {
+      transition: none;
+    }
+  }
+</style>
