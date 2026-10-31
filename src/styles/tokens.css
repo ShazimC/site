@@ -5,7 +5,7 @@
   --surface: light-dark(oklch(92.963% 0.00648 53.527), oklch(0.2581 0.0074 0));
   --text: light-dark(oklch(0.24 0.00003 0), oklch(89.079% 0.0249 53.527));
   --text-selected: light-dark(oklch(89.218% 0.02631 38.285), oklch(36.838% 0.03361 4.384));
-  --text-muted: light-dark(oklch(0.6268 0 0), oklch(0.7 0 0));
+  --text-muted: light-dark(oklch(44.953% 0.00005 271.152), oklch(0.7 0 0));
   --primary: light-dark(oklch(61.013% 0.11179 12.144), oklch(0.5162 0.1159 13.24));
   --link: light-dark(oklch(54% 0.11179 12.144), oklch(0.62 0.1159 13.24));
   --shadow-color: light-dark(oklch(61.339% 0.01758 2.774), oklch(0.2081 0.0074 0));
@@ -80,8 +80,8 @@
 
   /* Shadows */
   --shadow-hard: var(--space-2) var(--space-2) 0 var(--shadow-color);
-  --shadow-soft: 0 var(--space-1) var(--space-2) color-mix(in oklch, var(--shadow-color) 30%, transparent);
-  --shadow-lifted: 0 var(--space-2) var(--space-4) color-mix(in oklch, var(--shadow-color) 60%, transparent);
+  --shadow-lifted: 0 var(--space-1) var(--space-3)
+    color-mix(in oklch, var(--shadow-color) 12%, transparent);
 
   /* Motion */
   --duration-fast: 150ms;
