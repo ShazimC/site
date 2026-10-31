@@ -20,7 +20,7 @@ const thoughts = defineCollection({
     date: z.coerce.date(),
     draft: z.boolean().default(false),
     /* Flags unfinished thinking; checked in the Obsidian note. */
-    rough: z.boolean().default(false),
+    complete: z.boolean().default(true),
   }),
 });
 
@@ -49,7 +49,7 @@ const resume = defineCollection({
       ),
       experience: z.array(
         z.object({
-          company: z.string(),
+          company: z.object({ name: z.string(), url: z.url() }),
           title: z.string(),
           team: z.string(),
           location: z.string(),

@@ -16,7 +16,9 @@ resume:
       end: '2020-05'
 
   experience:
-    - company: Xbox
+    - company:
+        name: Xbox
+        url: https://www.xbox.com
       title: Design Engineer
       team: PlayFab
       location: Remote, NJ
@@ -39,7 +41,9 @@ resume:
         - Developed the live test session activity polling and filtering dashboard.
         - Ensured robust feature development via critical E2E Playwright test coverage.
 
-    - company: AT&T
+    - company:
+        name: AT&T
+        url: https://www.att.com
       title: Professional Member of Technical Staff
       team: Open Test Framework
       location: Middletown, NJ
@@ -55,7 +59,9 @@ resume:
         - 'Test Catalog: led the design and development of our mission-critical, fully browsable test catalog.'
         - "OTF Redesign: led the development of OTF's new redesign from conception to production."
 
-    - company: AT&T
+    - company:
+        name: AT&T
+        url: https://www.att.com
       title: Design Engineer
       team: Open Test Framework
       location: Middletown, NJ

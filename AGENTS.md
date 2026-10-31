@@ -41,4 +41,4 @@ Consult these guides before working on related tasks:
 
 Thoughts posts are generated from Obsidian by `scripts/publish/` (see its README). Don't hand-edit generated posts in `src/content/thoughts/`; edit the source note and re-run `pnpm publish:draft`.
 
-After changing a collection schema in `src/content.config.ts`, run `npx astro sync --force` and restart the dev server; otherwise the content cache keeps entries parsed with the old schema.
+After changing a collection schema in `src/content.config.ts`, run `npx astro sync --force` and restart the dev server (touching `astro.config.mjs` restarts it in place); otherwise the content cache keeps entries parsed with the old schema.

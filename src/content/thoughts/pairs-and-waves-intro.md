@@ -2,7 +2,7 @@
 title: Pairs and Waves - Introduction
 description: Light and dark. Adam and Eve. Hot and cold. Life and death.
 date: 2026-10-31
-rough: false
+complete: true
 ---
 
 > وَمِن كُلِّ شَىْءٍ خَلَقْنَا زَوْجَيْنِ لَعَلَّكُمْ تَذَكَّرُونَ ٤٩\

@@ -2,7 +2,7 @@
 title: Al-Fatihah - The Opening
 description: All praise and gratitude belongs to God, Lord of all worlds
 date: 2026-10-31
-rough: true
+complete: false
 ---
 
 All praise and gratitude belongs to God, Lord of all worlds

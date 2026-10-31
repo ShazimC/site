@@ -25,7 +25,7 @@ const cardSizes = `(width < 48rem) 100vw, ${cardWidth}`;
         roles.map((role) => (
           <li class="role">
             <h3 class="role-title">
-              {role.title} at <a class="company">{role.company}</a>
+              {role.title} at <a class="company" href={role.company.url} target="_blank" rel="noopener noreferrer">{role.company.name}</a>
             </h3>
             <p class="meta">{formatRange(role.start, role.end)}</p>
             <p class="summary">{role.summary}</p>

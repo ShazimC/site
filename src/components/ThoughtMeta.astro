@@ -6,7 +6,7 @@ interface Props {
 }
 
 const { thought } = Astro.props;
-const { date, rough } = thought.data;
+const { date, complete } = thought.data;
 ---
 
 <p class="meta">
@@ -14,7 +14,7 @@ const { date, rough } = thought.data;
   <!-- <span aria-hidden="true">·</span> -->
   <!-- <span>{readingTime(thought.body)}</span> -->
   {
-    rough && (
+    !complete && (
       <>
         <span aria-hidden="true">·</span>
         <em class="rough" title="Unfinished thinking, still taking shape">

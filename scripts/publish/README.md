@@ -8,10 +8,10 @@ Obsidian notes are the source of truth. One action creates **drafts** on three p
 | Substack | Draft via `python-substack` (unofficial; cookie auth) | Publishing in the Substack editor |
 | Medium | “Import a story” with the live site URL (sets canonical link) | Publishing in Medium, then **Mark Medium published** in the sidebar |
 
-State lives in each note’s frontmatter (`publish`, `rough`, `slug`, `date`, `description`, `site`, `substack`, `substack_*`, `medium`).
+State lives in each note’s frontmatter (`publish`, `complete`, `slug`, `date`, `description`, `site`, `substack`, `substack_*`, `medium`).
 
 - `site` / `substack` / `medium`: always present. `undrafted` (nothing yet) → `draft` (ready for review) → `published` (live). Site and Substack are detected; Medium is set from the sidebar chip.
-- `rough`: checkbox, unchecked by default; tick it in the note’s properties or the sidebar. Rough posts get a “rough thought” mark in the thoughts list and on the post. Re-run drafts after changing it. Set `title`, `slug` or `description` yourself to override the defaults (leading H1 or file name; slugified title; first paragraph).
+- `complete`: checkbox, checked by default; untick it in the note’s properties or the sidebar. Incomplete posts get a “rough thought” mark in the thoughts list and on the post. Re-run drafts after changing it. Set `title`, `slug` or `description` yourself to override the defaults (leading H1 or file name; slugified title; first paragraph).
 
 ## Setup (once)
 

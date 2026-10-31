@@ -28,9 +28,9 @@ module.exports = class PortfolioPublisher extends Plugin {
       editorCheckCallback: (checking, _editor, ctx) => this.whenMarkdown(ctx.file, checking, (f) => this.togglePublish(f)),
     });
     this.addCommand({
-      id: 'rough',
-      name: 'Toggle rough on current note',
-      editorCheckCallback: (checking, _editor, ctx) => this.whenMarkdown(ctx.file, checking, (f) => this.setRough(f, !this.isRough(f))),
+      id: 'complete',
+      name: 'Toggle complete on current note',
+      editorCheckCallback: (checking, _editor, ctx) => this.whenMarkdown(ctx.file, checking, (f) => this.setComplete(f, !this.isComplete(f))),
     });
     this.addCommand({
       id: 'draft',
@@ -89,21 +89,21 @@ module.exports = class PortfolioPublisher extends Plugin {
     await this.app.fileManager.processFrontMatter(file, (fm) => {
       if (marked) return void delete fm.publish;
       fm.publish = true;
-      fm.rough ??= false;
+      fm.complete ??= true;
       for (const platform of PLATFORMS) fm[platform] ??= 'undrafted';
     });
     new Notice(`${file.basename}: ${marked ? 'removed from' : 'added to'} publishing`);
   }
 
-  isRough(file) {
-    return this.frontmatter(file).rough === true;
+  isComplete(file) {
+    return this.frontmatter(file).complete !== false;
   }
 
-  async setRough(file, rough) {
+  async setComplete(file, complete) {
     await this.app.fileManager.processFrontMatter(file, (fm) => {
-      fm.rough = rough;
+      fm.complete = complete;
     });
-    new Notice(`${file.basename}: ${rough ? 'marked' : 'unmarked'} rough. Run “Update drafts” to apply it to the site.`);
+    new Notice(`${file.basename}: marked ${complete ? 'complete' : 'incomplete'}. Run “Update drafts” to apply it to the site.`);
   }
 
   async setMedium(file, status) {
@@ -245,11 +245,11 @@ class PublishView extends ItemView {
     const heading = row.createDiv('pp-heading');
     const title = heading.createDiv({ cls: 'pp-title', text: fm.title ?? file.basename });
     title.setAttr('title', file.path);
-    const rough = heading.createEl('label', { cls: 'pp-rough' });
-    const checkbox = rough.createEl('input', { type: 'checkbox' });
-    checkbox.checked = this.plugin.isRough(file);
-    checkbox.onchange = () => this.plugin.setRough(file, checkbox.checked);
-    rough.createSpan({ text: 'Rough' });
+    const complete = heading.createEl('label', { cls: 'pp-complete' });
+    const checkbox = complete.createEl('input', { type: 'checkbox' });
+    checkbox.checked = this.plugin.isComplete(file);
+    checkbox.onchange = () => this.plugin.setComplete(file, checkbox.checked);
+    complete.createSpan({ text: 'Complete' });
     title.onclick = () => this.app.workspace.getLeaf(false).openFile(file);
     if (file.parent && !file.parent.isRoot()) row.createDiv({ cls: 'pp-path', text: file.parent.path });
 

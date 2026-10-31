@@ -28,7 +28,7 @@ interface Result {
   site?: Status;
   substack?: Status;
   medium?: Status;
-  rough?: boolean;
+  complete?: boolean;
   urls: { site?: string; preview?: string; substack?: string };
   errors: string[];
   messages: string[];
@@ -78,7 +78,7 @@ function draft(file: string): Result {
   slugs.set(path.resolve(file), slug);
   const date = str(note.data.date) ?? new Date().toLocaleDateString('en-CA');
   const description = str(note.data.description) ?? summarize(preview.lede ?? '');
-  const rough = isRough(note);
+  const complete = isComplete(note);
   Object.assign(result, { slug });
 
   const site = convert(
@@ -90,7 +90,7 @@ function draft(file: string): Result {
       imageSrc: (image) => siteImageSrc(slug, image),
     }),
   );
-  writePost(slug, { title, description, date, rough }, site.markdown, site.images);
+  writePost(slug, { title, description, date, complete }, site.markdown, site.images);
   result.site = siteStatus(slug);
   result.messages.push(`Site: wrote ${postPath(slug)} (uncommitted)`);
 
@@ -207,7 +207,7 @@ function withUrls(result: Result, note: Note): Result {
   result.site = note.data.site as Status;
   result.substack = note.data.substack as Status;
   result.medium = note.data.medium as Status;
-  result.rough = note.data.rough === true;
+  result.complete = note.data.complete !== false;
   if (slug) {
     result.urls.site = `${SITE_URL}/thoughts/${slug}/`;
     result.urls.preview = `${DEV_URL}/thoughts/${slug}/`;
@@ -218,7 +218,7 @@ function withUrls(result: Result, note: Note): Result {
 
 function report(result: Result) {
   console.log(`\n${path.basename(result.note, '.md')}${result.slug ? ` → /thoughts/${result.slug}/` : ''}`);
-  console.log(`  ${result.rough ? 'rough · ' : ''}site: ${result.site ?? '–'} · substack: ${result.substack ?? '–'} · medium: ${result.medium ?? '–'}`);
+  console.log(`  ${result.complete ? '' : 'incomplete · '}site: ${result.site ?? '–'} · substack: ${result.substack ?? '–'} · medium: ${result.medium ?? '–'}`);
   result.messages.forEach((message) => console.log(`  ✓ ${message}`));
   result.errors.forEach((error) => console.log(`  ✗ ${error}`));
   if (result.site === 'draft' && result.urls.preview) console.log(`  Preview: ${result.urls.preview}`);
@@ -258,19 +258,19 @@ function failed(file: string, error: unknown): Result {
   return { ...newResult(file), errors: [(error as Error).message] };
 }
 
-/** Every tracked note always shows all three platforms and the rough checkbox; fills in whichever are missing. */
+/** Every tracked note always shows all three platforms and the complete checkbox; fills in whichever are missing. */
 function defaults(note: Note): Record<string, unknown> {
   const patch: Record<string, unknown> = {};
   for (const platform of ['site', 'substack', 'medium']) if (!str(note.data[platform])) patch[platform] = 'undrafted';
-  if (note.data.rough === undefined || note.data.rough === null) patch.rough = false;
+  if (note.data.complete === undefined || note.data.complete === null) patch.complete = true;
   return patch;
 }
 
-function isRough(note: Note): boolean {
-  const { rough } = note.data;
-  if (rough === undefined || rough === null) return false;
-  if (typeof rough !== 'boolean') throw new Error(`\`rough\` must be a checkbox (true/false), not "${rough}".`);
-  return rough;
+function isComplete(note: Note): boolean {
+  const { complete } = note.data;
+  if (complete === undefined || complete === null) return true;
+  if (typeof complete !== 'boolean') throw new Error(`\`complete\` must be a checkbox (true/false), not "${complete}".`);
+  return complete;
 }
 
 function newResult(note: string): Result {

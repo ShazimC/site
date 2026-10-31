@@ -8,8 +8,8 @@
 .pp-row.is-busy { opacity: 0.7; }
 .pp-heading { display: flex; align-items: baseline; justify-content: space-between; gap: var(--size-4-2); }
 .pp-title { font-weight: var(--font-semibold); cursor: pointer; }
-.pp-rough { display: inline-flex; flex-shrink: 0; align-items: center; gap: var(--size-2-1); font-size: var(--font-ui-smaller); color: var(--text-muted); cursor: pointer; }
-.pp-rough input { margin: 0; }
+.pp-complete { display: inline-flex; flex-shrink: 0; align-items: center; gap: var(--size-2-1); font-size: var(--font-ui-smaller); color: var(--text-muted); cursor: pointer; }
+.pp-complete input { margin: 0; }
 .pp-title:hover { color: var(--text-accent); }
 .pp-path { margin-block-start: calc(-1 * var(--size-2-2)); color: var(--text-faint); font-size: var(--font-ui-smaller); }
 .pp-chips, .pp-actions { display: flex; flex-wrap: wrap; gap: var(--size-2-2); }
