@@ -28,6 +28,11 @@ Consult these guides before working on related tasks:
 - Never hardcode sizes, colors, timings, easings, radii, borders, shadows or letter spacing. Use the tokens in `src/styles/tokens.css`.
 - Add a value to `tokens.css` only if it is reused globally. One-off values stay as local custom properties in the component (e.g. `--dot`, `--bleed`).
 
+### Typography
+
+- Never use `text-transform: uppercase` (or `font-variant: small-caps`), including for dates, labels, metadata and headings. Write text in the case it should display. Sole exception: the Work page timeline dates (`.role .meta` in `src/pages/work/index.astro`).
+- Dates use short month names (`Jan 5, 2026`, `Jan 2026`): `month: 'short'` in `toLocaleDateString`.
+
 ### Responsive / mobile (required for every UI change)
 
 - Breakpoints are `@custom-media` in `src/styles/media.css`: `--sm`, `--md`, `--lg`, `--xl` (min-width), `--md-down` (max-width), `--can-hover` (real hover pointer). Never write raw `min-width`/`max-width` queries.

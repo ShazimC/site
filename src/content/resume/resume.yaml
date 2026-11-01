@@ -94,7 +94,7 @@ resume:
       url: https://plantrees.app
       start: '2024-06'
       stack: [Next.js, TypeScript, Tailwind, Drizzle, Supabase, Vercel]
-      description: A feature rich digital planner where users can plan, organize, execute with AI.
+      description: A feature rich digital planner where users can plan, organize, execute with and without AI.
 
     - name: SpeechLearn
       kind: Machine Learning Mobile App

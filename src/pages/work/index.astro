@@ -112,8 +112,11 @@ const cardSizes = `(width < 48rem) 100vw, ${cardWidth}`;
     color: var(--link);
   }
 
+  /* The one allowed uppercase exception (see AGENTS.md > Typography). */
   .role .meta {
     margin: var(--space-2) 0 0;
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
   }
 
   .summary {
