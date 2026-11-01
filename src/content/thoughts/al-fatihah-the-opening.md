@@ -1,6 +1,7 @@
 ---
 title: Al-Fatihah - The Opening
-description: All praise and gratitude belongs to God, Lord of all worlds
+description: On the stitching of the verses of the first chapter of the Quran -
+  Al Fatihah (The Opening)
 date: 2026-10-31
 complete: false
 ---

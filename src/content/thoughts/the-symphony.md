@@ -1,7 +1,6 @@
 ---
 title: The Symphony
-description: In the name of God, the All-Loving, the Ever-Loving. All praise and
-  gratitude is to God, The most beautiful orchestrator of this reality.
+description: On the movements of the Earth.
 date: 2026-10-31
 complete: false
 ---

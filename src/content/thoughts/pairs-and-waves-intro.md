@@ -1,6 +1,6 @@
 ---
 title: Pairs and Waves - Introduction
-description: Light and dark. Adam and Eve. Hot and cold. Life and death.
+description: On the pattern of pairs and waves in the works of the Inventor.
 date: 2026-10-31
 complete: true
 ---
