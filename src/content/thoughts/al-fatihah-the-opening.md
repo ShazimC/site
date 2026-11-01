@@ -1,7 +1,6 @@
 ---
 title: Al-Fatihah - The Opening
-description: On the stitching of the verses of the first chapter of the Quran -
-  Al Fatihah (The Opening)
+description: On the stitching of the verses of the opening chapter of the Quran.
 date: 2026-10-31
 complete: false
 ---
