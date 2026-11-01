@@ -5,8 +5,8 @@ import ProjectRow from '../components/ProjectRow.astro';
 import { getThoughts } from '../lib/thoughts';
 import { getResume } from '../lib/resume';
 
-const RECENT_COUNT = 3;
-const recent = (await getThoughts()).slice(0, RECENT_COUNT);
+const RECENT_COUNT = 2;
+const recent = (await getThoughts()).filter((thought) => thought.data.featured).slice(0, RECENT_COUNT);
 const featured = (await getResume()).projects.filter((project) => project.featured);
 ---
 
@@ -28,7 +28,7 @@ const featured = (await getResume()).projects.filter((project) => project.featur
       <section class="recent" aria-labelledby="recent-work">
         <h2 id="recent-work" class="heading">
           <a href="/work/" class="all">
-            Recent work
+            Featured work
           </a>
         </h2>
         <ul class="list">

@@ -56,7 +56,7 @@ h4 {
 p {
   font-size: var(--text-xl);
   font-family: var(--font-body);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-regular);
   line-height: var(--leading-normal);
 }
 

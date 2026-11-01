@@ -8,10 +8,12 @@ Obsidian notes are the source of truth. One action creates **drafts** on three p
 | Substack | Draft via `python-substack` (unofficial; cookie auth) | Publishing in the Substack editor |
 | Medium | “Import a story” with the live site URL (sets canonical link) | Publishing in Medium, then **Mark Medium published** in the sidebar |
 
-State lives in each note’s frontmatter (`publish`, `complete`, `slug`, `date`, `description`, `site`, `substack`, `substack_*`, `medium`).
+State lives in each note’s frontmatter (`publish`, `complete`, `featured`, `slug`, `date`, `description`, `site`, `substack`, `substack_*`, `medium`).
 
 - `site` / `substack` / `medium`: always present. `undrafted` (nothing yet) → `draft` (ready for review) → `published` (live). Site and Substack are detected; Medium is set from the sidebar chip.
 - `complete`: checkbox, checked by default; untick it in the note’s properties or the sidebar. Incomplete posts get a “rough thought” mark in the thoughts list and on the post. Re-run drafts after changing it. Set `title`, `slug` or `description` yourself to override the defaults (leading H1 or file name; slugified title; first paragraph).
+- `date`: the note file’s creation day, filled in when the note is added to publishing (or on the first draft). Set it yourself to override; delete it to reset.
+- `featured`: checkbox, unchecked by default; tick it in the note’s properties or the sidebar to list the post under “Recent thoughts” on the home page (newest featured first). Re-run drafts after changing it.
 
 ## Setup (once)
 
@@ -22,7 +24,7 @@ State lives in each note’s frontmatter (`publish`, `complete`, `slug`, `date`,
 ## Workflow
 
 1. Right-click a note → **Add to publishing** (or `+` in the Publishing sidebar).
-2. **Create drafts** → review the site preview and Substack draft. Re-run any time to update; Substack drafts edited in its editor are not overwritten unless you pass `--force`.
+2. **Create drafts** → review the site preview and Substack draft. Re-run any time to update (the sidebar’s **Update all drafts** button does every already-drafted note at once); Substack drafts edited in its editor are not overwritten unless you pass `--force`.
 3. Commit + push the site post → **Refresh** → Site turns “published”.
 4. **Medium import** → copies the URL and opens Medium’s import page → publish there → Medium chip → **Mark Medium published**.
 

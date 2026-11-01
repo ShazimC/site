@@ -8,8 +8,9 @@
 .sp-row.is-busy { opacity: 0.7; }
 .sp-heading { display: flex; align-items: baseline; justify-content: space-between; gap: var(--size-4-2); }
 .sp-title { font-weight: var(--font-semibold); cursor: pointer; }
-.sp-complete { display: inline-flex; flex-shrink: 0; align-items: center; gap: var(--size-2-1); font-size: var(--font-ui-smaller); color: var(--text-muted); cursor: pointer; }
-.sp-complete input { margin: 0; }
+.sp-flags { display: flex; flex-shrink: 0; gap: var(--size-4-2); }
+.sp-flag { display: inline-flex; align-items: center; gap: var(--size-2-1); font-size: var(--font-ui-smaller); color: var(--text-muted); cursor: pointer; }
+.sp-flag input { margin: 0; }
 .sp-title:hover { color: var(--text-accent); }
 .sp-path { margin-block-start: calc(-1 * var(--size-2-2)); color: var(--text-faint); font-size: var(--font-ui-smaller); }
 .sp-chips, .sp-actions { display: flex; flex-wrap: wrap; gap: var(--size-2-2); }

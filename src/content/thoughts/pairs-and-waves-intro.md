@@ -1,8 +1,9 @@
 ---
 title: Pairs and Waves - Introduction
 description: On the pattern of pairs and waves in the works of the Inventor.
-date: 2026-10-31
+date: 2026-07-23
 complete: true
+featured: true
 ---
 
 > وَمِن كُلِّ شَىْءٍ خَلَقْنَا زَوْجَيْنِ لَعَلَّكُمْ تَذَكَّرُونَ ٤٩\

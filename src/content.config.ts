@@ -21,6 +21,8 @@ const thoughts = defineCollection({
     draft: z.boolean().default(false),
     /* Flags unfinished thinking; checked in the Obsidian note. */
     complete: z.boolean().default(true),
+    /* Listed under "Recent thoughts" on the home page; checked in the Obsidian note. */
+    featured: z.boolean().default(false),
   }),
 });
 

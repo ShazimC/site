@@ -9,6 +9,11 @@ const DEFAULTS = { repoPath: '/Users/shazimc/Code/site', nodePath: '' };
 const PLATFORMS = ['site', 'substack', 'medium'];
 const LABELS = { site: 'Site', substack: 'Substack', medium: 'Medium' };
 const STATUSES = ['undrafted', 'draft', 'published'];
+// Note checkboxes shown in each sidebar row and copied into the site post.
+const FLAGS = {
+  complete: { label: 'Complete', fallback: true, on: 'marked complete', off: 'marked incomplete' },
+  featured: { label: 'Featured', fallback: false, on: 'featured on the home page', off: 'removed from the home page' },
+};
 
 module.exports = class SitePublisher extends Plugin {
   async onload() {
@@ -22,6 +27,7 @@ module.exports = class SitePublisher extends Plugin {
 
     this.addCommand({ id: 'open', name: 'Open publishing sidebar', callback: () => this.openView() });
     this.addCommand({ id: 'refresh', name: 'Refresh publishing status', callback: () => this.refresh() });
+    this.addCommand({ id: 'update-all', name: 'Update all drafts', callback: () => this.updateAll() });
     this.addCommand({
       id: 'toggle',
       name: 'Add/remove current note from publishing',
@@ -30,7 +36,12 @@ module.exports = class SitePublisher extends Plugin {
     this.addCommand({
       id: 'complete',
       name: 'Toggle complete on current note',
-      editorCheckCallback: (checking, _editor, ctx) => this.whenMarkdown(ctx.file, checking, (f) => this.setComplete(f, !this.isComplete(f))),
+      editorCheckCallback: (checking, _editor, ctx) => this.whenMarkdown(ctx.file, checking, (f) => this.setFlag(f, 'complete', !this.flag(f, 'complete'))),
+    });
+    this.addCommand({
+      id: 'featured',
+      name: 'Toggle featured on current note',
+      editorCheckCallback: (checking, _editor, ctx) => this.whenMarkdown(ctx.file, checking, (f) => this.setFlag(f, 'featured', !this.flag(f, 'featured'))),
     });
     this.addCommand({
       id: 'draft',
@@ -89,21 +100,23 @@ module.exports = class SitePublisher extends Plugin {
     await this.app.fileManager.processFrontMatter(file, (fm) => {
       if (marked) return void delete fm.publish;
       fm.publish = true;
-      fm.complete ??= true;
+      fm.date ??= new Date(file.stat.ctime).toLocaleDateString('en-CA');
+      for (const [key, value] of Object.entries(FLAGS)) fm[key] ??= value.fallback;
       for (const platform of PLATFORMS) fm[platform] ??= 'undrafted';
     });
     new Notice(`${file.basename}: ${marked ? 'removed from' : 'added to'} publishing`);
   }
 
-  isComplete(file) {
-    return this.frontmatter(file).complete !== false;
+  flag(file, key) {
+    const value = this.frontmatter(file)[key];
+    return typeof value === 'boolean' ? value : FLAGS[key].fallback;
   }
 
-  async setComplete(file, complete) {
+  async setFlag(file, key, value) {
     await this.app.fileManager.processFrontMatter(file, (fm) => {
-      fm.complete = complete;
+      fm[key] = value;
     });
-    new Notice(`${file.basename}: marked ${complete ? 'complete' : 'incomplete'}. Run “Update drafts” to apply it to the site.`);
+    new Notice(`${file.basename}: ${value ? FLAGS[key].on : FLAGS[key].off}. Run “Update drafts” to apply it to the site.`);
   }
 
   async setMedium(file, status) {
@@ -184,6 +197,13 @@ module.exports = class SitePublisher extends Plugin {
     if (files.length) await this.run('status', files);
     else this.rerender();
   }
+
+  /** Re-runs drafts for every queued note that already has one; never-drafted notes are left alone. */
+  async updateAll() {
+    const files = this.marked().filter((f) => STATUSES.slice(1).includes(this.frontmatter(f).site));
+    if (!files.length) return void new Notice('No drafts to update yet.');
+    await this.run('draft', files);
+  }
 };
 
 class PublishView extends ItemView {
@@ -225,6 +245,7 @@ class PublishView extends ItemView {
       if (file?.extension === 'md' && !this.plugin.isMarked(file)) this.plugin.togglePublish(file);
     });
     iconButton(tools, 'refresh-cw', 'Refresh status', () => this.plugin.refresh());
+    iconButton(tools, 'file-up', 'Update all drafts', () => this.plugin.updateAll());
 
     const files = this.plugin.marked().sort((a, b) => b.stat.mtime - a.stat.mtime);
     if (!files.length) {
@@ -245,11 +266,14 @@ class PublishView extends ItemView {
     const heading = row.createDiv('sp-heading');
     const title = heading.createDiv({ cls: 'sp-title', text: fm.title ?? file.basename });
     title.setAttr('title', file.path);
-    const complete = heading.createEl('label', { cls: 'sp-complete' });
-    const checkbox = complete.createEl('input', { type: 'checkbox' });
-    checkbox.checked = this.plugin.isComplete(file);
-    checkbox.onchange = () => this.plugin.setComplete(file, checkbox.checked);
-    complete.createSpan({ text: 'Complete' });
+    const flags = heading.createDiv('sp-flags');
+    for (const [key, { label }] of Object.entries(FLAGS)) {
+      const toggle = flags.createEl('label', { cls: 'sp-flag' });
+      const checkbox = toggle.createEl('input', { type: 'checkbox' });
+      checkbox.checked = this.plugin.flag(file, key);
+      checkbox.onchange = () => this.plugin.setFlag(file, key, checkbox.checked);
+      toggle.createSpan({ text: label });
+    }
     title.onclick = () => this.app.workspace.getLeaf(false).openFile(file);
     if (file.parent && !file.parent.isRoot()) row.createDiv({ cls: 'sp-path', text: file.parent.path });
 
