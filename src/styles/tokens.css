@@ -11,7 +11,6 @@
   --shadow-color: light-dark(oklch(61.339% 0.01758 2.774), oklch(0.2081 0.0074 0));
   --surface-raised: color-mix(in oklch, var(--surface), var(--text) 3%);
   --border-color: color-mix(in oklch, var(--text) 10%, transparent);
-  --rule-color: color-mix(in oklch, var(--text-muted) 45%, transparent);
 
   /* Fonts */
   --font-display: 'Josefin Sans', sans-serif;
@@ -98,4 +97,7 @@
   --pen-stroke: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 10' preserveAspectRatio='none'%3E%3Cpath d='M0 6C20 5.1 40 4.9 60 5S90 5.4 100 5.5C96 6.1 82 6.6 64 6.7S24 7.2 0 6Z'/%3E%3C/svg%3E");
   --pen-height: 0.5em;
   --pen-rest-opacity: 0.5;
+
+  /* Four-point diamond star (hover marker, timeline dots); use as a mask over a fill color. */
+  --star: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M5 0C5.4 3.2 6.8 4.6 10 5C6.8 5.4 5.4 6.8 5 10C4.6 6.8 3.2 5.4 0 5C3.2 4.6 4.6 3.2 5 0Z'/%3E%3C/svg%3E");
 }

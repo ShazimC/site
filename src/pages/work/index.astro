@@ -60,7 +60,7 @@ const cardSizes = `(width < 48rem) 100vw, ${cardWidth}`;
     margin-bottom: var(--space-16);
   }
 
-  /* Timeline: hollow dots on a continuous rail. */
+  /* Timeline: primary diamond stars on a continuous rail. */
   .timeline {
     --dot: var(--space-4);
 
@@ -79,7 +79,7 @@ const cardSizes = `(width < 48rem) 100vw, ${cardWidth}`;
       bottom: 0;
       left: calc((var(--dot) - var(--border-thick)) / 2);
       width: var(--border-thick);
-      background: var(--rule-color);
+      background: var(--border-color);
     }
   }
 
@@ -87,17 +87,25 @@ const cardSizes = `(width < 48rem) 100vw, ${cardWidth}`;
     position: relative;
     padding-left: calc(var(--dot) + var(--space-6));
 
-    &::before {
+    /* ::before is a background-colored plate that breaks the rail; ::after is the star on top of it. */
+    &::before,
+    &::after {
       content: '';
       position: absolute;
       top: var(--space-2);
       left: 0;
-      box-sizing: border-box;
       width: var(--dot);
       height: var(--dot);
-      border: var(--border-thick) solid var(--rule-color);
+    }
+
+    &::before {
       border-radius: var(--radius-full);
       background: var(--background);
+    }
+
+    &::after {
+      background: var(--primary);
+      mask: var(--star) center / contain no-repeat;
     }
   }
 

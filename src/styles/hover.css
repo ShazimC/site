@@ -1,0 +1,54 @@
+/*
+ * Hover treatment for linked list items (thought cards and rows, project rows).
+ *   .hover-item    the link wrapping an item
+ *   .hover-title   the item's heading: turns primary and slides a star in after its end
+ */
+
+.hover-title {
+  --star-size: 0.45em;
+
+  transition: color var(--duration-normal) var(--ease);
+
+  &::after {
+    content: '';
+    display: inline-block;
+    inline-size: var(--star-size);
+    block-size: var(--star-size);
+    margin-inline-start: var(--star-size);
+    vertical-align: 0.15em;
+    background: var(--primary);
+    mask: var(--star) center / contain no-repeat;
+    opacity: 0;
+    transform: translateX(calc(-1 * var(--space-2)));
+    transition:
+      opacity var(--duration-normal) var(--ease-out),
+      transform var(--duration-normal) var(--ease-out);
+  }
+
+  .hover-item:focus-visible & {
+    color: var(--primary);
+
+    &::after {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+@media (--can-hover) {
+  .hover-item:hover .hover-title {
+    color: var(--primary);
+
+    &::after {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hover-title,
+  .hover-title::after {
+    transition: none;
+  }
+}

@@ -6,23 +6,25 @@ interface Props {
   thought: Thought;
 }
 
-/* Compact, single-line counterpart to ThoughtCard: title and date only, for short lists. */
+/* Compact counterpart to ThoughtCard: title, date and description, for short lists. */
 const { thought } = Astro.props;
+const { title, description } = thought.data;
 ---
 
-<a href={`/thoughts/${thought.id}/`} class="row pen-none">
+<a href={`/thoughts/${thought.id}/`} class="row hover-item pen-none">
   <h3
-    class="title morph"
+    class="title hover-title morph"
     transition:name={thoughtTransition(thought.id)}
     transition:animate="initial"
   >
-    {thought.data.title}
+    {title}
   </h3>
   <ThoughtMeta thought={thought} />
+  {description && <p class="description">{description}</p>}
 </a>
 
 <style>
-  /* Stacked on small screens; title and date share a line from --sm up. */
+  /* Stacked on small screens; title and date share a line from --sm up, description spans below. */
   .row {
     display: grid;
     gap: var(--space-1);
@@ -32,34 +34,27 @@ const { thought } = Astro.props;
     @media (--sm) {
       grid-template-columns: 1fr auto;
       align-items: baseline;
-      gap: var(--space-6);
+      column-gap: var(--space-6);
     }
+  }
+
+  .description {
+    grid-column: 1 / -1;
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: var(--text-lg);
+    font-weight: var(--weight-light);
+    line-height: var(--leading-normal);
+    color: var(--text-muted);
   }
 
   .title {
     font-size: var(--text-xl);
     font-weight: var(--weight-regular);
     line-height: var(--leading-tight);
-    transition: color var(--duration-normal) var(--ease);
   }
 
   .row :global(.meta) {
     margin: 0;
-  }
-
-  .row:focus-visible .title {
-    color: var(--link);
-  }
-
-  @media (--can-hover) {
-    .row:hover .title {
-      color: var(--link);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .title {
-      transition: none;
-    }
   }
 </style>

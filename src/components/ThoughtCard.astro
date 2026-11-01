@@ -10,10 +10,10 @@ const { thought } = Astro.props;
 const { title, description } = thought.data;
 ---
 
-<a href={`/thoughts/${thought.id}/`} class="thought pen-none">
+<a href={`/thoughts/${thought.id}/`} class="thought hover-item pen-none">
   <ThoughtMeta thought={thought} />
   <h2
-    class="title morph"
+    class="title hover-title morph"
     transition:name={thoughtTransition(thought.id)}
     transition:animate="initial"
   >
@@ -36,11 +36,6 @@ const { title, description } = thought.data;
     font-size: var(--text-3xl);
     font-weight: var(--weight-regular);
     line-height: var(--leading-tight);
-    transition: color var(--duration-normal) var(--ease);
-
-    .thought:is(:hover, :focus-visible) & {
-      color: var(--link);
-    }
   }
 
   .description {
