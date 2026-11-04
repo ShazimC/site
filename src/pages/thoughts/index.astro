@@ -6,7 +6,11 @@ import { getThoughts } from '../../lib/thoughts';
 const thoughts = await getThoughts();
 ---
 
-<Base title="Thoughts" subtitle="Always incomplete.">
+<Base
+  title="Thoughts"
+  subtitle="Always incomplete."
+  description="Essays and works-in-progress by Shazim on patterns, design, and knowledge."
+>
   {
     thoughts.length ? (
       <ul class="thoughts">

@@ -4,7 +4,8 @@ import '../styles/global.css';
 import '../styles/transitions.css';
 import '../styles/pen.css';
 import '../styles/hover.css';
-import { Image } from 'astro:assets';
+import { Image, getImage } from 'astro:assets';
+import { SITE_DESCRIPTION, SITE_NAME } from '../lib/site';
 import { ClientRouter } from 'astro:transitions';
 import { fadeSlide } from '../lib/transitions';
 import avatar from '../assets/photos/IMG_1902.jpg';
@@ -14,13 +15,30 @@ import SocialLinks from '../components/SocialLinks.astro';
 interface Props {
   title: string;
   subtitle?: string;
+  /** Meta description for search results and link previews; defaults to SITE_DESCRIPTION. */
+  description?: string;
+  /** Overrides the <title>, which is otherwise "<title> · SITE_NAME". */
+  documentTitle?: string;
+  /** Open Graph type: `article` for posts. */
+  type?: 'website' | 'article';
   /** Tighter header-to-content spacing, e.g. for long-form posts. */
   compact?: boolean;
   /** View-transition name shared with a matching element on another page, so the title morphs between them. */
   titleTransition?: string;
 }
 
-const { title, subtitle, compact = false, titleTransition } = Astro.props;
+const {
+  title,
+  subtitle,
+  description = SITE_DESCRIPTION,
+  documentTitle = `${title} · ${SITE_NAME}`,
+  type = 'website',
+  compact = false,
+  titleTransition,
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const ogImage = new URL((await getImage({ src: avatar, format: 'jpg' })).src, Astro.site).href;
 
 const links = [
   { href: '/about/', label: 'About' },
@@ -42,7 +60,18 @@ const links = [
       href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Cormorant+Infant:ital,wght@0,300..700;1,300..700&display=swap"
       rel="stylesheet"
     />
-    <title>Shazim</title>
+    <title>{documentTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={SITE_NAME} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:title" content={documentTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:alt" content={SITE_NAME} />
+    <meta name="twitter:card" content="summary" />
     <ClientRouter />
   </head>
   <body>

@@ -6,11 +6,17 @@ import { getThoughts } from '../lib/thoughts';
 import { getResume } from '../lib/resume';
 
 const RECENT_COUNT = 2;
-const recent = (await getThoughts()).filter((thought) => thought.data.featured).slice(0, RECENT_COUNT);
+const recent = (await getThoughts())
+  .filter((thought) => thought.data.featured)
+  .slice(0, RECENT_COUNT);
 const featured = (await getResume()).projects.filter((project) => project.featured);
 ---
 
-<Base title="Shazim شازم" subtitle="Design engineer, student, and advocate.">
+<Base
+  title="Shazim شازم"
+  subtitle="Design engineer, student, and advocate."
+  documentTitle="Shazim · Design engineer"
+>
   <p>
     I have an insatiable thirst for knowledge, beauty, and justice. The magnificent patterns of
     reality continue to convince me of God. I hope to spend my life accompanying those patterns

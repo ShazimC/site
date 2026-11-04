@@ -20,7 +20,14 @@ const { title, description } = thought.data;
 const { Content } = await render(thought);
 ---
 
-<Base title={title} subtitle={description} titleTransition={thoughtTransition(thought.id)} compact>
+<Base
+  title={title}
+  subtitle={description}
+  description={description}
+  type="article"
+  titleTransition={thoughtTransition(thought.id)}
+  compact
+>
   <div class="byline" slot="header">
     <ThoughtMeta thought={thought} />
   </div>
