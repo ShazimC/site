@@ -1,5 +1,5 @@
 ---
-title: The Software of Online Multiplayer Video Games
+title: The Engineering of Massive Multiplayer Games
 description: Video games are some of the most complex and demanding types of
   software in existence.
 date: 2026-11-08
