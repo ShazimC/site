@@ -14,7 +14,8 @@
     display: inline-block;
     inline-size: var(--star-size);
     block-size: var(--star-size);
-    margin-inline-start: var(--star-size);
+    /* Handles extra space caused by star*/
+    margin-inline: var(--star-size) calc(-2 * var(--star-size));
     vertical-align: 0.15em;
     background: var(--primary);
     mask: var(--star) center / contain no-repeat;
