@@ -17,7 +17,7 @@ resume:
 
   experience:
     - company:
-        name: Xbox
+        name: XBOX
         url: https://www.xbox.com
       title: Design Engineer
       team: PlayFab
@@ -36,7 +36,7 @@ resume:
         - Re-engineered the PlayStream event live streaming UI, including scalable rendering throttle ratios up to 1:1000 requests per interval.
         - Improved performance and UX of 31 critical features by migrating from Knockout to React and .NET.
         - Developed the PlayFab ICM support system for PubSub matchmaking live notifications.
-        - 'Game Testing Platform: designed and developed the GUI portal with the Xbox Design System team.'
+        - 'Game Testing Platform: designed and developed the GUI portal with the XBOX Design System team.'
         - Integrated cross-tenant authentication for Microsoft and first-party studio employees via MSAL and GDAS SDKs.
         - Developed the live test session activity polling and filtering dashboard.
         - Ensured robust feature development via critical E2E Playwright test coverage.

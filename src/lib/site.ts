@@ -5,7 +5,7 @@ export const SITE_NAME = 'Shazim';
 
 /** Fallback meta description for pages that don't pass their own. */
 export const SITE_DESCRIPTION =
-  'Shazim Chaudhary: design engineer at Xbox, student, and advocate. Projects, work, and writing on knowledge, beauty, and justice.';
+  'Shazim Chaudhary: design engineer at XBOX, student, and advocate. Projects, work, and writing on knowledge, beauty, and justice.';
 
 export const SOCIALS = [
   { id: 'substack', label: 'Substack', href: 'https://signsreality.substack.com' },
