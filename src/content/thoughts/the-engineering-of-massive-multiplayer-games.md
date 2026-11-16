@@ -4,7 +4,7 @@ description: Video games are some of the most complex and demanding types of
   software in existence.
 date: 2026-11-08
 complete: true
-featured: false
+featured: true
 ---
 
 Video games are some of the most complex and demanding types of software in existence.
