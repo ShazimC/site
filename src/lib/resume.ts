@@ -16,3 +16,9 @@ export function formatMonth(date: Date): string {
 export function formatRange(start: Date, end?: Date): string {
   return `${formatMonth(start)} – ${end ? formatMonth(end) : 'Present'}`;
 }
+
+/** The project's write-up page, from its `post` reference. */
+export const projectHref = (project: Project) => `/work/${project.post.id}/`;
+
+/** Shared view-transition name linking a project's card or row title to its write-up heading. */
+export const projectTransition = (id: string) => `project-${id}`;

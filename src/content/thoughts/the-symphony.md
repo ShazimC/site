@@ -3,7 +3,7 @@ title: The Symphony
 description: On the movements of the Earth.
 date: 2026-08-11
 complete: false
-featured: true
+featured: false
 ---
 
 *In the name of God, the All-Loving, the Ever-Loving.*\

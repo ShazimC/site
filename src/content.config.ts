@@ -1,5 +1,5 @@
 import { file, glob } from 'astro/loaders';
-import { defineCollection } from 'astro:content';
+import { defineCollection, reference } from 'astro:content';
 import { z } from 'astro/zod';
 
 const books = defineCollection({
@@ -10,6 +10,12 @@ const books = defineCollection({
     rating: z.number(),
     summary: z.string(),
   }),
+});
+
+/* Long-form write-ups for resume projects (what it is, how it was made, the problem it solves), at /work/<id>/. */
+const projects = defineCollection({
+  loader: glob({ base: 'src/content/projects', pattern: '*.md' }),
+  schema: z.object({}),
 });
 
 const thoughts = defineCollection({
@@ -70,6 +76,10 @@ const resume = defineCollection({
           /* Listed under "Recent work" on the home page. */
           featured: z.boolean().default(false),
           url: z.url(),
+          github: z.url().optional(),
+          productHunt: z.url().optional(),
+          /* Write-up in src/content/projects/ that the project's card and row link to. */
+          post: reference('projects'),
           image: image().optional(),
           start: month.optional(),
           stack: z.array(z.string()),
@@ -84,5 +94,6 @@ const resume = defineCollection({
 export const collections = {
   books,
   thoughts,
+  projects,
   resume,
 };

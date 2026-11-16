@@ -1,6 +1,9 @@
 ---
 import { Image } from 'astro:assets';
-import type { Project } from '../lib/resume';
+import ExternalIcon from '@phosphor-icons/core/assets/light/arrow-square-out-light.svg';
+import GithubIcon from '@phosphor-icons/core/assets/light/github-logo-light.svg';
+import ProductHuntIcon from '../assets/icons/producthunt.svg';
+import { projectTransition, type Project } from '../lib/resume';
 
 interface Props {
   project: Project;
@@ -8,11 +11,18 @@ interface Props {
   sizes: string;
 }
 
+/* The name's link is stretched over the whole card to open the project's site; the icon links sit above it. */
 const { project, sizes } = Astro.props;
-const { name, url, image, description } = project;
+const { name, url, github, productHunt, image, description } = project;
+
+const links = [
+  productHunt && { href: productHunt, label: `${name} on Product Hunt`, Icon: ProductHuntIcon },
+  { href: url, label: `Open ${name}`, Icon: ExternalIcon },
+  github && { href: github, label: `${name} on GitHub`, Icon: GithubIcon },
+].filter((link) => !!link);
 ---
 
-<a href={url} target="_blank" rel="noopener noreferrer" class="project pen-none">
+<article class="project">
   {
     image && (
       <div class="cover">
@@ -20,13 +30,46 @@ const { name, url, image, description } = project;
       </div>
     )
   }
-  <h3 class="name">{name}</h3>
+  <div class="header">
+    <h3
+      class="name morph"
+      transition:name={projectTransition(project.post.id)}
+      transition:animate="initial"
+    >
+      <a
+        href={url}
+        class="main pen-none"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`${name} (opens in a new tab)`}>{name}</a
+      >
+    </h3>
+    <ul class="links">
+      {
+        links.map(({ href, label, Icon }) => (
+          <li>
+            <a
+              {href}
+              class="pen-none"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${label} (opens in a new tab)`}
+              title={label}
+            >
+              <Icon class="icon" aria-hidden="true" />
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
   <p class="description">{description}</p>
-</a>
+</article>
 
 <style>
   /* Layout and motion after maggieappleton.com's essay cards. Fluid: fills whatever width the parent gives it. */
   .project {
+    position: relative;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
@@ -40,7 +83,7 @@ const { name, url, image, description } = project;
       transform var(--duration-normal) var(--ease-spring),
       box-shadow var(--duration-fast) var(--ease);
 
-    &:focus-visible {
+    &:has(.main:focus-visible) {
       transform: scale(var(--scale-lift));
       box-shadow: var(--shadow-lifted);
     }
@@ -52,7 +95,7 @@ const { name, url, image, description } = project;
       }
     }
 
-    &:active {
+    &:has(.main:active) {
       transform: none;
       transition-duration: var(--duration-fast);
     }
@@ -71,23 +114,77 @@ const { name, url, image, description } = project;
     }
   }
 
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+  }
+
   .name {
     font-family: var(--font-body);
     font-size: var(--text-2xl);
     font-weight: var(--weight-medium);
     line-height: var(--leading-tight);
-    transition: color var(--duration-fast) var(--ease);
+  }
 
-    .project:focus-visible &,
-    .project:active & {
-      color: var(--link);
+  /* Static so the stretched ::after positions against the card, not the link (pen.css makes links relative). */
+  .main {
+    position: static;
+    color: inherit;
+
+    /* Stretches the link over the card so the whole card opens the link; `all: unset` drops pen.css's stroke styles. */
+    &::after {
+      all: unset;
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
     }
 
-    @media (--can-hover) {
-      .project:hover & {
+    /* The card draws the focus ring instead. */
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
+  .project:has(.main:focus-visible) {
+    outline: var(--border-thick) solid var(--link);
+    outline-offset: var(--border-thick);
+  }
+
+  .links {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    /* Cancels the links' hit-area padding so icons align with the card edge and don't heighten the title line. */
+    margin: calc(-1 * var(--space-1));
+    padding: 0;
+    list-style: none;
+
+    a {
+      display: grid;
+      place-items: center;
+      padding: var(--space-1);
+      border-radius: var(--radius-sm);
+      color: var(--text-muted);
+      transition: color var(--duration-normal) var(--ease);
+
+      &:focus-visible {
         color: var(--link);
       }
+
+      @media (--can-hover) {
+        &:hover {
+          color: var(--link);
+        }
+      }
     }
+  }
+
+  .icon {
+    inline-size: var(--text-2xl);
+    block-size: var(--text-2xl);
   }
 
   .description {
@@ -101,7 +198,7 @@ const { name, url, image, description } = project;
 
   @media (prefers-reduced-motion: reduce) {
     .project,
-    .name {
+    .links a {
       transition: none;
     }
   }

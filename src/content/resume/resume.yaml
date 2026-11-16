@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=../../../.astro/collections/resume.schema.json
 # Single source of truth for the resume. /work renders a lean view of it:
-# experience → timeline (title, company, dates, summary); projects → cards.
+# experience → timeline (title, company, dates, summary); projects → cards linking to their write-ups in src/content/projects/.
 resume:
   name: Shazim Chaudhary
   location: New Jersey, U.S.
@@ -85,6 +85,7 @@ resume:
       kind: Evidence Archive
       featured: true
       url: https://genocide.live/
+      post: genocide-live
       stack: []
       description: An archive documenting the genocide being committed in Palestine by Israel. I designed it, implemented most of the UI, and built its search.
 
@@ -92,6 +93,8 @@ resume:
       kind: AI Planner SaaS
       featured: true
       url: https://plantrees.app
+      productHunt: https://www.producthunt.com/products/plantrees-2?utm_source=other&utm_medium=social
+      post: plantrees
       start: '2024-06'
       stack: [Next.js, TypeScript, Tailwind, Drizzle, Supabase, Vercel]
       description: A feature rich digital planner where users can plan, organize, execute with and without AI.
@@ -99,6 +102,7 @@ resume:
     - name: SpeechLearn
       kind: Machine Learning Mobile App
       url: https://github.com/ShazimC/SpeechLearningApp
+      post: speechlearn
       stack: [React Native, scikit-learn, TensorFlow]
       description: Hackathon winning machine learning app that facilitates communication with speech-impaired people.
 

@@ -1,0 +1,61 @@
+---
+import { getEntry, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import ArrowLeftIcon from '@phosphor-icons/core/assets/light/arrow-left-light.svg';
+import { getResume, projectTransition, type Project } from '../../lib/resume';
+import '../../styles/prose.css';
+
+export async function getStaticPaths() {
+  const { projects } = await getResume();
+  return projects.map((project) => ({ params: { slug: project.post.id }, props: { project } }));
+}
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+const post = await getEntry(project.post);
+if (!post) throw new Error(`Missing write-up src/content/projects/${project.post.id}.md`);
+const { Content } = await render(post);
+---
+
+<Base
+  title={project.name}
+  subtitle={project.description}
+  description={project.description}
+  type="article"
+  titleTransition={projectTransition(project.post.id)}
+  compact
+>
+  <article class="prose">
+    <Content />
+  </article>
+
+  <a href="/work/" class="back">
+    <ArrowLeftIcon class="icon" aria-hidden="true" />
+    Back
+  </a>
+</Base>
+
+<style>
+  .back {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: var(--space-16);
+    font-size: var(--text-lg);
+    color: inherit;
+    --pen-offset: -0.55em;
+  }
+
+  .icon {
+    width: 1.1em;
+    height: 1.1em;
+    transition: transform var(--duration-fast) var(--ease-out);
+  }
+
+  .back:is(:hover, :focus-visible) .icon {
+    transform: translateX(calc(-1 * var(--space-1)));
+  }
+</style>
